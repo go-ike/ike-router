@@ -1,32 +1,66 @@
 const Express = require('express');
 
 class IkeRouter {
+	/**
+	 * Instantiates the main properties
+	 * Creates the clasess' controllers path, router instance and
+	 * a resource map
+	 */
 	constructor() {
 		this.controllerPath = './controllers/';
 		this.router = Express.Router();
 		this.resources = [];
 	}
 
+	/**
+	 * Creates a get route
+	 * @param  {String} path      The URL path
+	 * @param  {String} shorthand The shorthand controller#method notation
+	 * @param  {Object} options   Routing options
+	 */
 	get(path, shorthand, options) {
 		options = this._parseOptions(shorthand, options);
 		this.router.get(path, this._callAction(options));
 	}
 	
+	/**
+	 * Creates a post route
+	 * @param  {String} path      The URL path
+	 * @param  {String} shorthand The shorthand controller#method notation
+	 * @param  {Object} options   Routing options
+	 */
 	post(path, shorthand, options) {
 		options = this._parseOptions(shorthand, options);
 		this.router.post(path, this._callAction(options));
 	}
 
+	/**
+	 * Creates a put route
+	 * @param  {String} path      The URL path
+	 * @param  {String} shorthand The shorthand controller#method notation
+	 * @param  {Object} options   Routing options
+	 */
 	put(path, shorthand, options) {
 		options = this._parseOptions(shorthand, options);
 		this.router.put(path, this._callAction(options));
 	}
 
+	/**
+	 * Creates a delete route
+	 * @param  {String} path      The URL path
+	 * @param  {String} shorthand The shorthand controller#method notation
+	 * @param  {Object} options   Routing options
+	 */
 	delete(path, shorthand, options) {
 		options = this._parseOptions(shorthand, options);
 		this.router.delete(path, this._callAction(options));
 	}
 
+	/**
+	 * Creates a routing resource
+	 * @param  {String} resourceName The name of the resource
+	 * @param  {String} controller   The name of the controller, if different from the resource
+	 */
 	resource(resourceName, controller) {
 		let resourceRouter = Express.Router();
 		if(!controller) controller = resourceName;
@@ -51,6 +85,10 @@ class IkeRouter {
 		this.router.use('/'+resourceName, resourceRouter);
 	}
 
+	/**
+	 * Returns the express.Router() instance to be used by express
+	 * @return {express.Router()}
+	 */
 	draw() {
 		return this.router;
 	}
@@ -77,12 +115,23 @@ class IkeRouter {
 			return '/'+path+'/'+parameters.id+'/edit';
 	}
 
+	/**
+	 * Sets the routers' controllers path
+	 * @param {String} path The path to find the controllers
+	 */
 	setControllerPath(path) {
 		this.controllerPath = path;
 	}
 
 	/* private */
 
+	/**
+	 * Parse the shorthand and route options into a standard object,
+	 * to be used by the routes.
+	 * @param  {String} shorthand The shorthand controller#method notation
+	 * @param  {Object} options   Routing options
+	 * @return {Object}
+	 */
 	_parseOptions(shorthand, options) {
 		if(typeof shorthand === 'object') options = shorthand;
 		else {
@@ -94,6 +143,12 @@ class IkeRouter {
 		return options;
 	}
 
+	/**
+	 * Calls the method of the controller, on the context of the instance,
+	 * passing express' req and res params
+	 * @param  {Object}   options Routing options
+	 * @return {Function} 
+	 */
 	_callAction(options) {
 		const controller = new(require(this.controllerPath + options.controller + '.controller.js'))();
 		const method = controller[options.method];
