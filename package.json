@@ -1,0 +1,22 @@
+{
+  "name": "ike-router",
+  "version": "1.0.0",
+  "description": "The ike express' router",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/go-ike/ike-router.git"
+  },
+  "author": "Mateus Pinheiro <mateus.pinheiro@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/go-ike/ike-router/issues"
+  },
+  "homepage": "https://github.com/go-ike/ike-router#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
