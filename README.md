@@ -46,6 +46,19 @@ app.listen(3000, () => { console.log('Example running') });
 
 This will boot a simple server, routed by Ike router.
 
+## Middleware
+Any express-compatible middelware function can be passed to the route with the `middleware` parameter. It can be a single function or array of functions. It will be executed in the order they are declared, leaving the controller function for last.
+
+Passing middleware:
+```js
+routes.get('/', 'samples#index', { middleware: someFunc })
+```
+
+Or multiple middlewares, to be executed in the declared order:
+```js
+routes.get('/', 'samples#index', { middleware: [someFunc, otherFunc] })
+```
+
 ## Options
 You can choose the **controllers path** when you instantiate the routes object.
 

@@ -132,14 +132,19 @@ class IkeRouter {
 	 * @param  {Object} options   Routing options
 	 * @return {Object}
 	 */
-	_parseOptions(shorthand, options) {
+	_parseOptions(shorthand, options = {}) {
 		if(typeof shorthand === 'object') options = shorthand;
 		else {
-			if(!options) options = {};
 			let shorthandOptions = shorthand.split('#');
 			options.controller = shorthandOptions[0];
 			options.method = shorthandOptions[1];	
 		}
+
+		if(!options.middleware) 
+			options.middleware = []
+		if(!Array.isArray(options.middleware)) 
+			options.middleware = [options.middleware]
+
 		return options;
 	}
 
@@ -152,7 +157,8 @@ class IkeRouter {
 	_callAction(options) {
 		const controller = new(require(this.controllerPath + options.controller + '.controller.js'))();
 		const method = controller[options.method];
-		return (req, res) => { method.call(controller, req, res) };
+		const call = (req, res) => { method.call(controller, req, res) }
+		return [...options.middleware, call];
 	}
 }
 
