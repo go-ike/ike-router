@@ -86,6 +86,14 @@ class IkeRouter {
 	}
 
 	/**
+	 * Mounts a middleware function to all routes
+	 * @param  {Function} middleware The express-compliant middleware
+	 */
+	mountMiddleware(middleware) {
+		this.router.use(middleware)
+	}
+
+	/**
 	 * Returns the express.Router() instance to be used by express
 	 * @return {express.Router()}
 	 */
