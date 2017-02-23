@@ -68,19 +68,19 @@ class IkeRouter {
 		this.resources.push(resourceName);
 		
 		resourceRouter.get('/', 
-			this._callAction({ controller: controller, method: 'index' }));
+			this._callAction({ controller: controller, method: 'index', middleware: []}));
 		resourceRouter.get('/new', 
-			this._callAction({ controller: controller, method: 'new' }));
+			this._callAction({ controller: controller, method: 'new', middleware: [] }));
 		resourceRouter.post('/', 
-			this._callAction({ controller: controller, method: 'create' }));
+			this._callAction({ controller: controller, method: 'create', middleware: [] }));
 		resourceRouter.get('/:id', 
-			this._callAction({ controller: controller, method: 'show' }));
+			this._callAction({ controller: controller, method: 'show', middleware: [] }));
 		resourceRouter.get('/:id/edit', 
-			this._callAction({ controller: controller, method: 'edit' }));
+			this._callAction({ controller: controller, method: 'edit', middleware: [] }));
 		resourceRouter.put('/:id', 
-			this._callAction({ controller: controller, method: 'update' }));
+			this._callAction({ controller: controller, method: 'update', middleware: [] }));
 		resourceRouter.delete('/:id', 
-			this._callAction({ controller: controller, method: 'destroy' }));
+			this._callAction({ controller: controller, method: 'destroy', middleware: [] }));
 
 		this.router.use('/'+resourceName, resourceRouter);
 	}
