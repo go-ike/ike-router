@@ -163,7 +163,7 @@ class IkeRouter {
 	 * @return {Function} 
 	 */
 	_callAction(options) {
-		const controller = new(require(this.controllerPath + options.controller + '.controller.js'))();
+		const controller = new(require(this.controllerPath + options.controller + '.js'))();
 		const method = controller[options.method];
 		const call = (req, res) => { method.call(controller, req, res) }
 		return [...options.middleware, call];

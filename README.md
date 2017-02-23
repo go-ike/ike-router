@@ -69,3 +69,7 @@ const routes = require('ike-router')('./controllers/');
 ```
 
 It will be realtive to where the app.js file is being executed from.
+
+## Contributors
+- [@mateusnroll](https://github.com/mateusnroll)
+- [@niightly](https://github.com/niightly)
