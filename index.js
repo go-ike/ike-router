@@ -22,7 +22,7 @@ class IkeRouter {
 		options = this._parseOptions(shorthand, options);
 		this.router.get(path, this._callAction(options));
 	}
-	
+
 	/**
 	 * Creates a post route
 	 * @param  {String} path      The URL path
@@ -66,20 +66,20 @@ class IkeRouter {
 		if(!controller) controller = resourceName;
 
 		this.resources.push(resourceName);
-		
-		resourceRouter.get('/', 
+
+		resourceRouter.get('/',
 			this._callAction({ controller: controller, method: 'index', middleware: []}));
-		resourceRouter.get('/new', 
+		resourceRouter.get('/new',
 			this._callAction({ controller: controller, method: 'new', middleware: [] }));
-		resourceRouter.post('/', 
+		resourceRouter.post('/',
 			this._callAction({ controller: controller, method: 'create', middleware: [] }));
-		resourceRouter.get('/:id', 
+		resourceRouter.get('/:id',
 			this._callAction({ controller: controller, method: 'show', middleware: [] }));
-		resourceRouter.get('/:id/edit', 
+		resourceRouter.get('/:id/edit',
 			this._callAction({ controller: controller, method: 'edit', middleware: [] }));
-		resourceRouter.put('/:id', 
+		resourceRouter.put('/:id',
 			this._callAction({ controller: controller, method: 'update', middleware: [] }));
-		resourceRouter.delete('/:id', 
+		resourceRouter.delete('/:id',
 			this._callAction({ controller: controller, method: 'destroy', middleware: [] }));
 
 		this.router.use('/'+resourceName, resourceRouter);
@@ -119,7 +119,7 @@ class IkeRouter {
 		else if(action === 'new')
 			return '/'+path+'/new';
 
-		else if(action === 'edit' && parameters && parameters.id) 
+		else if(action === 'edit' && parameters && parameters.id)
 			return '/'+path+'/'+parameters.id+'/edit';
 	}
 
@@ -145,12 +145,12 @@ class IkeRouter {
 		else {
 			let shorthandOptions = shorthand.split('#');
 			options.controller = shorthandOptions[0];
-			options.method = shorthandOptions[1];	
+			options.method = shorthandOptions[1];
 		}
 
-		if(!options.middleware) 
+		if(!options.middleware)
 			options.middleware = []
-		if(!Array.isArray(options.middleware)) 
+		if(!Array.isArray(options.middleware))
 			options.middleware = [options.middleware]
 
 		return options;
@@ -160,12 +160,12 @@ class IkeRouter {
 	 * Calls the method of the controller, on the context of the instance,
 	 * passing express' req and res params
 	 * @param  {Object}   options Routing options
-	 * @return {Function} 
+	 * @return {Function}
 	 */
 	_callAction(options) {
 		const controller = new(require(this.controllerPath + options.controller + '.js'))();
 		const method = controller[options.method];
-		const call = (req, res) => { method.call(controller, req, res) }
+		const call = (req, res, next) => { method.call(controller, req, res, next) }
 		return [...options.middleware, call];
 	}
 }

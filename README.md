@@ -17,12 +17,12 @@ Controllers **must** be a class (not even a class instance). Ike router instanti
 // CONTROLLER
 class SamplesController {
     constructor() {}
-    
+
     index(req, res) {
         let hello = this.helloWorld();
         res.status(200).send(hello);
     }
-    
+
     helloWorld() {
         retunrn 'Hello world';
     }
