@@ -3,6 +3,7 @@ const Express = require('express');
 class IkeRouter {
   #controllerPath = './controllers/'
   #version = ''
+  #middlewares = []
   #router = Express.Router();
   #resources = []
 
@@ -110,7 +111,9 @@ class IkeRouter {
    * Mounts a middleware function to all routes
    * @param  {Function} middleware The express-compliant middleware
    */
-  mountMiddleware(middleware) {
+  mountMiddleware(middleware, name = null, force = false) {
+    if (name && this.#middlewares.includes(name) && force === false) { return }
+    if (name) { this.#middlewares.push(name) }
     this.router.use(middleware)
   }
 

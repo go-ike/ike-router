@@ -59,6 +59,18 @@ Or multiple middlewares, to be executed in the declared order:
 routes.get('/', 'samples#index', { middleware: [someFunc, otherFunc] })
 ```
 
+Or declaring the middleware for all routes at once
+```js
+// Will add as many as you want without caring for duplicity
+routes.mountMiddleware(someFunc)
+
+// Will prevent another method with the name someFunc to be added
+routes.mountMiddleware(someFunc, 'someFunc')
+
+// Will add the method even if it is already included
+routes.mountMiddleware(someFunc, 'someFunc', true)
+```
+
 ## Options
 You can choose the **controllers path** when you instantiate the routes object.
 
